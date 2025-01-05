@@ -1,0 +1,95 @@
+/* Global styles */
+.login-body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #e6f7ff; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  /* Light blue background */
+  /* Login container */
+  .login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  /* Login box */
+  .login-box {
+    background-color: #fff; /* White background */
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 350px;
+  }
+  
+  .login-box h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  /* Input group styling */
+  .input-group {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .input-group label {
+    font-size: 14px;
+    color: #555;
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+  }
+  
+  /* Sign in button */
+  .btn-primary {
+    display: inline-block;
+    width: 100%;
+    background-color: #1a73e8; /* Blue */
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .btn-primary:hover {
+    background-color: #155db5; /* Darker blue */
+  }
+  
+  /* Additional links */
+  .links {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  
+  .links a {
+    color: #666;
+    text-decoration: none;
+  }
+  
+  .links a span {
+    color: #1a73e8;
+    font-weight: bold;
+  }
+  
+  .links a:hover {
+    text-decoration: underline;
+  }
+  
