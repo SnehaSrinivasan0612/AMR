@@ -19,8 +19,9 @@ export default function Bill() {
   console.log('\nIN Bill COMPONENT : ', values);
   const lastBill = values.slice(-1)[0];
   console.log('my bill : ',lastBill.amount)
+  const consumerName = (lastBill.uid === '6879') ? 'Jessu': 'Ishu'
   const rows = [
-    createData(lastBill.uid,'Jessu', lastBill.address, Math.floor(100000 + Math.random() * 900000).toString(), lastBill.amount, lastBill.date )
+    createData(lastBill.uid,consumerName, lastBill.address, Math.floor(100000 + Math.random() * 900000).toString(), lastBill.amount, lastBill.date )
   ]
   
   return (

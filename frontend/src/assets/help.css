@@ -1,0 +1,65 @@
+.help-page {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #ffffff;
+  }
+  
+  .help-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .help-header h1 {
+    font-size: 36px;
+  }
+  
+  .help-section {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .getting-started,
+  .important-links {
+    width: 45%;
+  }
+  
+  .getting-started h2,
+  .important-links h2 {
+    color: #007bff;
+  }
+  
+  .getting-started p {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  
+  .download-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .download-button:hover {
+    background-color: #218838;
+  }
+  
+  .important-links ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .important-links li {
+    margin-bottom: 15px;
+  }
+  
+  .important-links h3 {
+    color: #007bff;
+  }
+  
+  .important-links p {
+    font-size: 16px;
+    color: #555;
+  }

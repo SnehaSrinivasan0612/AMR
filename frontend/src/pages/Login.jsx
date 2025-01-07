@@ -66,7 +66,6 @@ export default function Login() {
         console.log(JSON.parse(result.values))
         const spreadsheetData = JSON.parse(result.values);
         const objectsArray = convertArrayToObjects(spreadsheetData)
-        console.log(objectsArray);
         setSpreadsheetData(objectsArray)
         navigate('/dashboard')
     }
