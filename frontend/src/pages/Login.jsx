@@ -51,32 +51,24 @@ export default function Login() {
             id: username,
             password: password
         }
-        await fetch('/api/login', {
+        const response = await fetch('/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
-        }).then(result => { 
-            return result.json()
-        }).then(result => {
-            console.log(JSON.parse(result.values))
-            const spreadsheetData = JSON.parse(result.values);
-            const objectsArray = convertArrayToObjects(spreadsheetData)
-            //////////////////////////////////////////////////////////////
-            // const keys = spreadsheetData[0]; // First row contains the keys
-            // const objectsArray = spreadsheetData.slice(1).map(row => {
-            //     const obj = {};
-            //     row.forEach((value, index) => {
-            //         obj[keys[index]] = value; // Assign value to the respective key
-            //     });
-            //     return obj;
-            // });
-
-            console.log(objectsArray);
-            //////////////////////////////////////////////////////////////////
-            setSpreadsheetData(objectsArray)
-            navigate('/dashboard')
         })
-
+        if (!response.ok) {
+            const errorData = await response.json(); // Parse the error message
+            // throw new Error(errorData.message || 'Failed to login');
+            alert(errorData.message || 'Invalid login details. Please try again.'); 
+            return;
+        }
+        const result = await response.json()
+        console.log(JSON.parse(result.values))
+        const spreadsheetData = JSON.parse(result.values);
+        const objectsArray = convertArrayToObjects(spreadsheetData)
+        console.log(objectsArray);
+        setSpreadsheetData(objectsArray)
+        navigate('/dashboard')
     }
 
   return (

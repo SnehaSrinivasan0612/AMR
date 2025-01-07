@@ -1,11 +1,11 @@
 import React from "react";
 import { Chart as ChartJS, defaults } from "chart.js/auto";
 import { Bar, Doughnut, Line } from "react-chartjs-2";
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+// import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import "../assets/mycharts.css";
 import "../assets/kpicard.css"
-
-import revenueData from "../data/revenueData.json";
+import { useUserStore } from "../store/user.js";
+import getMonthlyData from "../data/LineChartDataSetter.js";
 import sourceData from "../data/sourceData.json";
 
 defaults.maintainAspectRatio = false;
@@ -17,25 +17,26 @@ defaults.plugins.title.font.size = 20;
 defaults.plugins.title.color = "black";
 
 export const Mycharts = () => {
+  const values = useUserStore((state) => state.values); // Retrieve values from the Zustand store
+  console.log(values);
+  const monthlyData = getMonthlyData(values);
+  console.log('my charts : ',monthlyData)
+  const labelsArr = monthlyData.map((data) => data.label);
+  const amountArr = monthlyData.map((data) => data.amount);
+  console.log(labelsArr, amountArr);
   return (
     <div className="Mycharts">
       <div className="dataCard revenueCard">
         <Line
           data={{
-            labels: revenueData.map((data) => data.label),
+            labels: labelsArr,
             datasets: [
               {
-                label: "Revenue",
-                data: revenueData.map((data) => data.revenue),
+                label: "Amount",
+                data: amountArr,
                 backgroundColor: "#064FF0",
                 borderColor: "#064FF0",
-              },
-              {
-                label: "Cost",
-                data: revenueData.map((data) => data.cost),
-                backgroundColor: "#FF3030",
-                borderColor: "#FF3030",
-              },
+              }
             ],
           }}
           options={{
@@ -46,7 +47,7 @@ export const Mycharts = () => {
             },
             plugins: {
               title: {
-                text: "Monthly Revenue & Cost",
+                text: "Energy Bill",
               },
             },
           }}
@@ -101,30 +102,6 @@ export const Mycharts = () => {
               <p className="card-trend-text">0.03rs from last month</p>
             </div>
           </div>
-          {/* <Bar
-              data={{
-                labels: sourceData.map((data) => data.label),
-                datasets: [
-                  {
-                    label: "Count",
-                    data: sourceData.map((data) => data.value),
-                    backgroundColor: [
-                      "rgba(43, 63, 229, 0.8)",
-                      "rgba(250, 192, 19, 0.8)",
-                      "rgba(253, 135, 135, 0.8)",
-                    ],
-                    borderRadius: 5,
-                  },
-                ],
-              }}
-              options={{
-                plugins: {
-                  title: {
-                    text: "Revenue Source",
-                  },
-                },
-              }}
-            /> */}
       </div>
     </div>
   );

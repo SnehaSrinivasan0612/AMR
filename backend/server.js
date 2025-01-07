@@ -15,7 +15,7 @@ app.use(cors({
     allowedHeaders: ['Content-Type']
 }))
 
-const fetchData = async (req, res) => {
+const fetchSpreadsheetData = async (req, res) => {
   
     const auth = new google.auth.GoogleAuth({
       keyFile: "credentials.json",
@@ -41,7 +41,7 @@ const fetchData = async (req, res) => {
 }
 
 // app.get('/', async (req, res) => {
-//     const user = { username: "ishita", password: "123", customerid: "2"}
+//     const user = { username: "jessu", password: "abc", uid:"6879" }
 //     const newUser = new User(user);
 //     try{
 //         await newUser.save();
@@ -53,11 +53,34 @@ const fetchData = async (req, res) => {
 
 app.post('/api/login', async (req, res) => {
     const { id, password } = req.body;
+    if (!id || !password) {
+      return res.status(400).json({ message: 'Username and password are required' });
+  }
     console.log(password, id)
-    const data = await fetchData();
-    console.log('My data is :',data);
-    console.log("the end")
-    res.status(200).json({ success: true, values: JSON.stringify(data)})
+    const users = await User.find({ username:id });
+    if (!users) {
+      return res.status(401).json({ message: 'Invalid username ' });
+    }
+    if (password === users[0].password)
+    {
+      const uid = users[0].uid;
+      const data = await fetchSpreadsheetData();
+      const sheetData = data.slice(1).filter(row => {
+        console.log(row)
+        if (row[3] === uid){
+          return row
+        }
+      })
+      sheetData.unshift(data[0])
+      console.log(sheetData)
+      // console.log('My data is :',data);
+      // console.log("the end")
+      res.status(200).json({ success: true, values: JSON.stringify(sheetData)})
+    }
+    else{
+      res.status(401).json({ success: false, message: 'Invalid Credentials' })
+    }
+    
     // console.log(JSON.stringify(data))
 })
 

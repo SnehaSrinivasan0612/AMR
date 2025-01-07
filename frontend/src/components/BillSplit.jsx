@@ -40,7 +40,6 @@ export default function BillSplit() {
   }
 
   const totalAmount = calculateTotalAmount(billDetails);
-  // const totalAmount = "538.00";
 
   return (
     <Box sx={{ padding: 2, maxWidth: "800px", margin: "auto" }}>

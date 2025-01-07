@@ -3,14 +3,15 @@ const userSchema = new mongoose.Schema(
     {
         username: {
             type: String,
-            required: true
+            required: true,
+            unique: true
         }, 
         password: {
             type: String,
             required: true
-        }, 
-        customerid: {
-            type: Number,
+        },
+        uid: {
+            type: String,
             required: true
         }
     },
