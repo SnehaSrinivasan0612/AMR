@@ -38,7 +38,7 @@ export default function Bill() {
                         <TableCell align="right">ADDRESS</TableCell>
                         <TableCell align="right">BILL NO</TableCell>
                         {/* <TableCell align="right">UNITS</TableCell> */}
-                        <TableCell align="right">DUE AMOUNT</TableCell>
+                        <TableCell align="right">ENERGY CHARGE</TableCell>
                         <TableCell align="right">DUE DATE</TableCell>
                       </TableRow>
                     </TableHead>
