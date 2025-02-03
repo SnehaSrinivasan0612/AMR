@@ -16,11 +16,11 @@ const columns = [
     headerName: 'Date',
     width: 170,
   },
-  {
-    field: 'address',
-    headerName: 'Address',
-    width: 210,
-  },
+  // {
+  //   field: 'address',
+  //   headerName: 'Address',
+  //   width: 210,
+  // },
   {
     field: 'amount',
     headerName: 'Amount',
@@ -32,15 +32,16 @@ const columns = [
 
 export default function History() {
   const rows = useUserStore((state) => state.values);
+  const paidRows = rows.filter(row => row.status === "Paid");
   console.log('\nIN History COMPONENT : ', rows);
   return (
     <Box sx={{ display: 'flex' }}>
         <Navbar />
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <h1>History</h1>
-            <Box sx={{ height: 700, width: '80%' }}>
+            <Box sx={{ height: 700, width: '60%' }}>
                 <DataGrid
-                  rows={rows}
+                  rows={paidRows}
                   columns={columns}
                   getRowId={(row) => row.date}
                   // initialState={{

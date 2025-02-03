@@ -17,7 +17,7 @@ export default function Dashboard() {
         <Box sx={{ display: 'flex' }}>
             <Navbar />
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                <h1>home</h1>
+                <h1>Dashboard</h1>
                 <Mycharts />
                 {/* <Box sx={{ flexGrow: 1 }}>
                     <Grid container spacing={2}>

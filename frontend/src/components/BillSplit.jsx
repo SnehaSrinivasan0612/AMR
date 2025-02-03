@@ -14,7 +14,8 @@ import {
 
 export default function BillSplit() {
   const values = useUserStore((state) => state.values);
-  const lastBill = values.slice(-1)[0];
+  const unpaidRows = values.filter(row => row.status === "Unpaid");
+  const lastBill = unpaidRows.slice(-1)[0];
   const billDetails = [
     { description: "Energy Charge (EC)*", amount: lastBill.amount },
     { description: "Duty", amount: "40.97" },

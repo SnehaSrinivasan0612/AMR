@@ -26,20 +26,23 @@ export default function Login() {
         return parseFloat(totalBill.toFixed(2)); // Return the bill amount rounded to 2 decimal places
     }
     const convertArrayToObjects = (arr) => {
-        const headers = arr[0]; // Get the column headers
+        //const headers = arr[0]; // Get the column headers
+        const headers = [...arr[0], 'status'];
         return arr.slice(1).map(row => {
             const obj = Object.fromEntries(
-                headers.map((header, index) => [header, row[index]])
+                headers.map((header, index) => [header, row[index]  || null])
             );
     
             // Parse and validate 'amount'
             const units = parseInt(obj.amount, 10); // Convert to integer
             if (!isNaN(units)) {
                 obj.amount = calculateElectricityBill(units); // Calculate bill for valid units
+                obj.status = Math.random() < 0.5 ? 'Paid' : 'Unpaid';  
             } else {
                 obj.amount = 'Invalid amount'; // Handle invalid units
+                obj.status = 'Unknown';
             }
-    
+            console.log('neew data : ', obj)
             return obj;
         });
     };
@@ -63,12 +66,13 @@ export default function Login() {
             return;
         }
         const result = await response.json()
-        console.log(JSON.parse(result.values))
+        console.log('my data in login',JSON.parse(result.values))
         const spreadsheetData = JSON.parse(result.values);
         const objectsArray = convertArrayToObjects(spreadsheetData)
         setSpreadsheetData(objectsArray)
         navigate('/dashboard')
     }
+
 
   return (
     <div className='login-body'>
