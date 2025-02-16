@@ -32,7 +32,7 @@ export const Mycharts = () => {
             labels: labelsArr,
             datasets: [
               {
-                label: "Amount",
+                label: "Amount (in Rupees)",
                 data: amountArr,
                 backgroundColor: "#064FF0",
                 borderColor: "#064FF0",

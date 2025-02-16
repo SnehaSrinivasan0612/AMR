@@ -1,4 +1,4 @@
-import React from 'react'
+import {React, useState, useEffect} from 'react'
 import Navbar from '../components/Navbar.jsx'
 import { Box } from '@mui/material'
 import { useUserStore } from '../store/user.js';
@@ -17,38 +17,56 @@ function createData(userid, conname,  bill_no, amount, due_date) {
 }
 
 export default function Bill() {
-  var values = useUserStore((state) => state.values);
-  const unpaidRows = values.filter(row => row.status === "Unpaid");
-  console.log('\nIN Bill COMPONENT : ', unpaidRows);
- // const lastBill = values.slice(-1)[0];
-  console.log('my bill : ',values)
-  const consumerName = (values[0].uid === '6879') ? 'Jessu': 'Ishu'
-  // const rows = [
-  //   createData(lastBill.uid,consumerName,  Math.floor(100000 + Math.random() * 900000).toString(), lastBill.amount, lastBill.date )
-  // ]
-  const rows = unpaidRows.map(row => 
-    createData(
-        row.uid, 
-        consumerName, 
-        Math.floor(100000 + Math.random() * 900000).toString(), 
-        row.amount, 
-        row.date
-    )
-);
-  const paynow = (row) => {
-    console.log('my paynow : ',row)
-   // row.due_date = 'Paid'
-//    values.forEach((item) => {
-//     if (item.date === row.due_date) {
-//         item.status = 'Paid'; // Update status to 'Paid'
-//     }
-// });
-    console.log('after updation : ',values)
-  }
+  //var values = useUserStore((state) => state.values);
+  //const payBill = useUserStore((state) => state.payBill);
+ // const unpaidRows = values.filter(row => row.status === "Unpaid");
+  //const { updatevalues, payBill } = useUserStore();
+
+  const values = useUserStore((state) => state.values);
+  const userId = values[0].uid;
+  const [unpaidBills, setUnpaidBills] = useState([]);
+
+
+  useEffect(() => {
+      console.log("Fetching paid bills...");
+      fetch(`http://localhost:3000/bills/unpaid/${userId}`) // Hardcoded for testing
+        .then(response => {
+          console.log("Response:", response);
+          return response.json();
+        })
+        .then(data => {
+          console.log("Fetched unpaid bills:", data);
+          setUnpaidBills(data);
+        })
+        .catch(error => console.error("Error fetching paid bills:", error));
+    }, []);
+  console.log('bills : ', unpaidBills)
+  
+
+const handlePayBill = (billId) => {
+  fetch(`http://localhost:3000/bills/pay/${billId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ status: "Paid" }), // Send updated status
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Bill updated:", data);
+      // Remove the paid bill from the list
+      setUnpaidBills((prevBills) => prevBills.filter((bill) => bill._id !== billId));
+      alert("Bill Paid Successfully!");
+    })
+    .catch((error) => console.error("Error updating bill:", error));
+};
+
+
   
   return (
     <Box sx={{ display: 'flex' }}>
             <Navbar />
+            {unpaidBills.length === 0 ? <p>No pending bills.</p> : 
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <h1>Bill</h1>
                 <TableContainer  component={Paper}>
@@ -66,9 +84,9 @@ export default function Bill() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {rows.map((row) => (
+                      {unpaidBills.map((row) => (
                         <TableRow
-                          key={row.bill_no}
+                          key={row.billno}
                           sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                           {/* <TableCell component="th" scope="row">
@@ -76,10 +94,10 @@ export default function Bill() {
                           </TableCell>
                           <TableCell align="right">{row.conname}</TableCell> */}
                           {/* <TableCell align="right">{row.address}</TableCell> */}
-                          <TableCell align="right">{row.bill_no}</TableCell>
+                          <TableCell align="right">{row.billno}</TableCell>
                           <TableCell align="right">{row.amount}</TableCell>
-                          <TableCell align="right">{row.due_date}</TableCell>
-                          <TableCell align="right"><Button variant="contained" color="success" onClick={paynow(row)}>
+                          <TableCell align="right">{row.date}</TableCell>
+                          <TableCell align="right"><Button variant="contained" color="success" onClick={() =>  handlePayBill(row._id)}>
                             PAY NOW
                           </Button></TableCell>
                         </TableRow>
@@ -90,6 +108,7 @@ export default function Bill() {
                 <Box height={50} />
                 <BillSplit />
             </Box>
+            }
         </Box>
   )
 }

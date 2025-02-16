@@ -9,44 +9,6 @@ export default function Login() {
     const setSpreadsheetData = useUserStore((state) => state.setSpreadsheetData);
     const navigate = useNavigate();
 
-    function calculateElectricityBill(units) {
-        let totalBill = 0;
-        if (units <= 300) {
-          totalBill = units * 6.40;
-        } else if (units <= 350) {
-          totalBill = (300 * 6.40) + ((units - 300) * 7.25);
-        } else if (units <= 400) {
-          totalBill = (300 * 6.40) + (50 * 7.25) + ((units - 350) * 7.60);
-        } else if (units <= 500) {
-          totalBill = (300 * 6.40) + (50 * 7.25) + (50 * 7.60) + ((units - 400) * 7.90);
-        } else {
-          totalBill = (300 * 6.40) + (50 * 7.25) + (50 * 7.60) + (100 * 7.90) + ((units - 500) * 8.80);
-        }
-      
-        return parseFloat(totalBill.toFixed(2)); // Return the bill amount rounded to 2 decimal places
-    }
-    const convertArrayToObjects = (arr) => {
-        //const headers = arr[0]; // Get the column headers
-        const headers = [...arr[0], 'status'];
-        return arr.slice(1).map(row => {
-            const obj = Object.fromEntries(
-                headers.map((header, index) => [header, row[index]  || null])
-            );
-    
-            // Parse and validate 'amount'
-            const units = parseInt(obj.amount, 10); // Convert to integer
-            if (!isNaN(units)) {
-                obj.amount = calculateElectricityBill(units); // Calculate bill for valid units
-                obj.status = Math.random() < 0.5 ? 'Paid' : 'Unpaid';  
-            } else {
-                obj.amount = 'Invalid amount'; // Handle invalid units
-                obj.status = 'Unknown';
-            }
-            console.log('neew data : ', obj)
-            return obj;
-        });
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(username, password)
@@ -66,10 +28,11 @@ export default function Login() {
             return;
         }
         const result = await response.json()
-        console.log('my data in login',JSON.parse(result.values))
+       // console.log('my data in login',JSON.parse(result.values))
         const spreadsheetData = JSON.parse(result.values);
-        const objectsArray = convertArrayToObjects(spreadsheetData)
-        setSpreadsheetData(objectsArray)
+        // const objectsArray = convertArrayToObjects(spreadsheetData)
+        console.log('phase 2',spreadsheetData)
+        setSpreadsheetData(spreadsheetData)
         navigate('/dashboard')
     }
 
@@ -86,7 +49,7 @@ export default function Login() {
                 </div>
                 <div className="input-group">
                     <label htmlFor="password">Password:</label>
-                    <input type="text" id="password" name="password" value={password} onChange={(e)=> setpassword(e.target.value)} required />
+                    <input type="password" id="password" name="password" value={password} onChange={(e)=> setpassword(e.target.value)} required />
                 </div>
                 <input type="submit" value="Submit" className="btn-primary" onClick={handleSubmit}/>
             </form>
