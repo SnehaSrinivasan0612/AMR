@@ -5,6 +5,12 @@ import Help from './pages/Help.jsx'
 import History from './pages/History.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import Login from './pages/Login.jsx'
+import Help_Dashboard from './components/Help_Dashboard.jsx'
+import Help_faqs from './components/Help_faqs.jsx'
+import Help_troubleshoot from './components/Help_troubleshoot.jsx'
+import Help_Analytics from './components/Help_Analytics.jsx'
+import Help_manage from './components/Help_manage.jsx'
+import Profile from './pages/Profile.jsx'
 function App() {
   
   return (
@@ -15,7 +21,13 @@ function App() {
           <Route path="/history" element={<History />} />
           <Route path="/bill" element={<Bill />} />
           <Route path="/help" element={<Help />} />
+          <Route path="/help/dashboard" element={<Help_Dashboard />} />
+          <Route path="/help/faqs" element={<Help_faqs />} />
+          <Route path="/help/troubleshoot" element={<Help_troubleshoot />} />
+          <Route path="/help/analytics" element={<Help_Analytics />} />
+          <Route path="/help/bills" element={<Help_manage />} />
           <Route path="/" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </>

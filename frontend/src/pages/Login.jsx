@@ -4,16 +4,16 @@ import '../assets/login.css'
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../store/user.js'
 export default function Login() {
-    const [username, setusername] = useState('')
+    const [consumer_num, setConsumer_num] = useState('')
     const [password, setpassword] = useState('')
     const setSpreadsheetData = useUserStore((state) => state.setSpreadsheetData);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(username, password)
+        console.log(consumer_num, password)
         const data = {
-            id: username,
+            id: consumer_num,
             password: password
         }
         const response = await fetch('/api/login', {
@@ -44,8 +44,8 @@ export default function Login() {
             <h2>Account Login</h2>
             <form>
                 <div className="input-group">
-                    <label htmlFor="user">User Name:</label>
-                    <input type="text" id="user" name="user" value={username} onChange={(e)=> setusername(e.target.value)}  required />
+                    <label htmlFor="user">Consumer Number:</label>
+                    <input type="text" id="user" name="user" value={consumer_num} onChange={(e)=> setConsumer_num(e.target.value)}  required />
                 </div>
                 <div className="input-group">
                     <label htmlFor="password">Password:</label>

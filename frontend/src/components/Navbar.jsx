@@ -332,6 +332,53 @@ export default function Navbar() {
                 />
               </ListItemButton>
         </ListItem>    
+        <ListItem key='Profile' disablePadding sx={{ display: 'block' }} onClick={() => {navigate('/profile')}}>
+              <ListItemButton
+                sx={[
+                  {
+                    minHeight: 48,
+                    px: 2.5,
+                  },
+                  open
+                    ? {
+                        justifyContent: 'initial',
+                      }
+                    : {
+                        justifyContent: 'center',
+                      },
+                ]}
+              >
+                <ListItemIcon
+                  sx={[
+                    {
+                      minWidth: 0,
+                      justifyContent: 'center',
+                    },
+                    open
+                      ? {
+                          mr: 3,
+                        }
+                      : {
+                          mr: 'auto',
+                        },
+                  ]}
+                >
+                <InboxIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary='Profile'
+                  sx={[
+                    open
+                      ? {
+                          opacity: 1,
+                        }
+                      : {
+                          opacity: 0,
+                        },
+                  ]}
+                />
+              </ListItemButton>
+        </ListItem>  
         <List style={{ marginTop: `auto` }} >
             <ListItem key='Logout' disablePadding sx={{ display: 'block' }} onClick={() => {navigate('/')}}>
                 <ListItemButton

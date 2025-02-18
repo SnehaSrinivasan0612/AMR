@@ -108,15 +108,26 @@ async function insertUniqueDocuments(arr) {
 }
 
 // app.get('/', async (req, res) => {
-//     const user = { username: "jessu", password: "abc", uid:"6879" }
-//     const newUser = new User(user);
-//     try{
-//         await newUser.save();
-//         res.status(201).json({ success: true, data: newUser })
-//     }catch(error){
-//         res.status(500).json({ success: false, message:'Server Error' })
-//     }
-//})
+//   const user = { 
+//       consumer_num: "6009", 
+//       password: "123", 
+//       first_name: "John", 
+//       last_name: "Doe", 
+//       phone: "+91 999888777", 
+//       email: "john@gmail.com" 
+//   };
+//   const newUser = new User(user);
+
+//   try {
+//       await newUser.save();
+//       res.status(201).json({ success: true, data: newUser });
+//   } catch (error) {
+//       console.error("Error saving user:", error); // Log error for debugging
+//       res.status(500).json({ success: false, message: "Server Error", error: error.message });
+//   }
+// });
+
+
 
 app.put("/bills/pay/:billId", async (req, res) => {
   try {
@@ -162,13 +173,14 @@ app.post('/api/login', async (req, res) => {
       return res.status(400).json({ message: 'Username and password are required' });
   }
     console.log(password, id)
-    const users = await User.find({ username:id });
+    const users = await User.find({ consumer_num:id });
+    console.log(users)
     if (!users) {
-      return res.status(401).json({ message: 'Invalid username ' });
+      return res.status(401).json({ message: 'Invalid consumer number ' });
     }
     if (password === users[0].password)
     {
-      const uid = users[0].uid;
+      const uid = users[0].consumer_num;
       const data = await fetchSpreadsheetData();
       const sheetData = data.slice(1).filter(row => {
         if (row[3] === uid){
