@@ -29,7 +29,7 @@ export default function Bill() {
 
   useEffect(() => {
       console.log("Fetching unpaid bills...");
-      fetch(`http://localhost:3000/bills/unpaid/${userId}`) // Hardcoded for testing
+      fetch(`/bills/unpaid/${userId}`) // Hardcoded for testing
         .then(response => {
           console.log("Response:", response);
           return response.json();
@@ -44,7 +44,7 @@ export default function Bill() {
   
 
 const handlePayBill = (billId) => {
-  fetch(`http://localhost:3000/bills/pay/${billId}`, {
+  fetch(`/bills/pay/${billId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

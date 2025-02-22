@@ -32,7 +32,7 @@ export default function History() {
 
   useEffect(() => {
     console.log("Fetching paid bills...");
-    fetch(`http://localhost:3000/bills/paid/${userId}`) // Hardcoded for testing
+    fetch(`/bills/paid/${userId}`) // Hardcoded for testing
       .then(response => {
         console.log("Response:", response);
         return response.json();

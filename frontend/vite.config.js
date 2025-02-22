@@ -8,6 +8,15 @@ export default defineConfig({
     proxy: {
       "/api": {
         target: "http://localhost:3000"  
+      },
+      "/bills": {
+        target: "http://localhost:3000"  
+      },
+      "/updateDB": {
+        target: "http://localhost:3000"  
+      },
+      "/profile": {
+        target: "http://localhost:3000"  
       }
     }
   }

@@ -16,7 +16,7 @@ export default function Profile() {
   const [editField, setEditField] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/profile/${userId}`)
+    fetch(`/profile/${userId}`)
     .then(response => response.json())
     .then(data => {
       const user = JSON.parse(data.values)[0];
