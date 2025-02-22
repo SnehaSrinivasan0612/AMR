@@ -63,7 +63,7 @@ export default function Profile() {
     <Box sx={{ display: 'flex' }}>
       <Navbar />
       <Box component="main" sx={{ flexGrow: 1, p: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Typography variant="h3" sx={{ mb: 4, fontWeight: 'bold' }}>Hello, {fname} {lname}</Typography>
+        <Typography variant="h4" sx={{ mb: 4, fontWeight: 'bold' }}>Hello, {fname} {lname} </Typography>
         <Card sx={{ maxWidth: 800, width: '100%', p: 2 }}>
           <CardHeader title="Your Profile" sx={{ backgroundColor: 'primary.main', color: 'white', textAlign: 'center' }} />
           <CardContent>
