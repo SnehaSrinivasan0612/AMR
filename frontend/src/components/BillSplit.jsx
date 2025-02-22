@@ -12,10 +12,12 @@ import {
   Typography,
 } from "@mui/material";
 
-export default function BillSplit() {
+export default function BillSplit(props) {
   const values = useUserStore((state) => state.values);
+  const { bills } = props;
+  console.log('yayaya',bills)
   const unpaidRows = values.filter(row => row.status === "Unpaid");
-  const lastBill = unpaidRows.slice(-1)[0];
+  const lastBill = bills.slice(-1)[0];
   const billDetails = [
     { description: "Energy Charge (EC)*", amount: lastBill.amount },
     { description: "Duty", amount: "40.97" },

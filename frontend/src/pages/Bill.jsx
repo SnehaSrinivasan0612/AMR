@@ -28,7 +28,7 @@ export default function Bill() {
 
 
   useEffect(() => {
-      console.log("Fetching paid bills...");
+      console.log("Fetching unpaid bills...");
       fetch(`http://localhost:3000/bills/unpaid/${userId}`) // Hardcoded for testing
         .then(response => {
           console.log("Response:", response);
@@ -78,7 +78,7 @@ const handlePayBill = (billId) => {
                         {/* <TableCell align="right">ADDRESS</TableCell> */}
                         <TableCell align="right">BILL NO</TableCell>
                         {/* <TableCell align="right">UNITS</TableCell> */}
-                        <TableCell align="right">ENERGY CHARGE</TableCell>
+                        <TableCell align="right">BASIC ENERGY CHARGE</TableCell>
                         <TableCell align="right">DUE DATE</TableCell>
                         <TableCell align="right">PAY OPTION</TableCell>
                       </TableRow>
@@ -106,7 +106,7 @@ const handlePayBill = (billId) => {
                   </Table>
                 </TableContainer>
                 <Box height={50} />
-                <BillSplit />
+                <BillSplit bills={unpaidBills} />
             </Box>
             }
         </Box>

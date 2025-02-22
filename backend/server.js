@@ -10,6 +10,7 @@ dotenv.config();
 const app = express();
 const port = 3000;
 app.use(express.json())
+app.use(express.urlencoded({ extended: true })); 
 app.use(cors({
     origin: 'https://localhost:3000',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -158,6 +159,16 @@ app.get('/bills/paid/:uid', async (req, res) => {
   }
 });
 
+app.get('/profile/:uid', async (req, res) => {
+  try{
+    const users = await User.find({ consumer_num: String(req.params.uid) });
+    return res.status(200).json({ success: true, values: JSON.stringify(users)});
+  }
+  catch(error){
+    return res.status(401).json({ success: false,message: 'Invalid consumer number ' });
+  }
+})
+
 app.get('/bills/unpaid/:uid', async (req, res) => {
   try {
       const unpaidBills = await Bill.find({ uid: String(req.params.uid), status: "Unpaid" });
@@ -196,7 +207,16 @@ app.post('/api/login', async (req, res) => {
     else{
       res.status(401).json({ success: false, message: 'Invalid Credentials' })
     }
-    })
+})      
+
+app.post('/updateDB', async (req, res) => {
+  const {id, data_field, data_value} = req.body
+  await User.findOneAndUpdate({ consumer_num:id },{ [data_field]: data_value});
+  const users = await User.find({ consumer_num:id })
+  console.log(users)
+  return res.status(200).json({ success: true, values:req.body  })
+
+})
 
 app.listen(port, ()=>{
     connectDB();
