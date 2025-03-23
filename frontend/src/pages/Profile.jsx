@@ -44,7 +44,7 @@ export default function Profile() {
       data_value: value
     }
     console.log(data);
-    const response = await fetch('http://localhost:3000/updateDB', {
+    const response = await fetch('/updateDB', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)

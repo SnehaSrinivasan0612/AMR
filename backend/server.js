@@ -202,7 +202,7 @@ app.post('/api/login', async (req, res) => {
       sheetData.unshift(data[0])
       const sdata = convertArrayToObjects(sheetData)
       insertUniqueDocuments(sdata);
-      console.log('My data is :',sdata);
+    //  console.log('My data is :',sdata);
       res.status(200).json({ success: true, values: JSON.stringify(sdata)})
     }
     else{
