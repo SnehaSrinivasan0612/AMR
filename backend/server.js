@@ -13,7 +13,7 @@ import { MongoClient } from 'mongodb';
 
 dotenv.config();
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 // Connect to MongoDB
 connectDB();
@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Updated CORS configuration
 app.use(cors({
-    origin: 'http://localhost:5173',  // Vite's default port
+    origin: ['http://localhost:5173', 'https://script.google.com'],  // Add Google Apps Script domain
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
