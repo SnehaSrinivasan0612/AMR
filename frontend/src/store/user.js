@@ -1,10 +1,16 @@
 import { create } from "zustand";
+
 export const useUserStore = create((set) => ({
 	values: [],
     history: [],
-    setSpreadsheetData: (data) => {
-        set({ values: data }); // Set 'values' to the entire spreadsheet data
-        console.log("Spreadsheet data updated in Zustand: ", data);
+    user: null,
+
+    setUserData: (userData, bills) => {
+        set({ 
+            user: userData,
+            values: bills 
+        });
+        console.log("User data and bills updated in Zustand:", { userData, bills });
     },
 
     payBill: (billno) => {
@@ -25,5 +31,9 @@ export const useUserStore = create((set) => ({
     
     getSpreadsheetData: () => {
         return get().values; // Return the current 'values' state
+    },
+
+    clearStore: () => {
+        set({ values: [], history: [], user: null });
     }
 }))

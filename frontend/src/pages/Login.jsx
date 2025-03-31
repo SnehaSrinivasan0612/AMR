@@ -1,60 +1,91 @@
-import React from 'react'
-import { useState } from 'react'
-import '../assets/login.css'
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUserStore } from '../store/user.js'
-export default function Login() {
-    const [consumer_num, setConsumer_num] = useState('')
-    const [password, setpassword] = useState('')
-    const setSpreadsheetData = useUserStore((state) => state.setSpreadsheetData);
-    const navigate = useNavigate();
+import { useUserStore } from '../store/user.js';
+import './Login.css';
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(consumer_num, password)
-        const data = {
-            id: consumer_num,
-            password: password
-        }
-        const response = await fetch('/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        })
-        if (!response.ok) {
-            const errorData = await response.json(); // Parse the error message
-            // throw new Error(errorData.message || 'Failed to login');
-            alert(errorData.message || 'Invalid login details. Please try again.'); 
-            return;
-        }
-        const result = await response.json()
-       // console.log('my data in login',JSON.parse(result.values))
-        const spreadsheetData = JSON.parse(result.values);
-        // const objectsArray = convertArrayToObjects(spreadsheetData)
-        console.log('phase 2',spreadsheetData)
-        setSpreadsheetData(spreadsheetData)
-        navigate('/dashboard')
+const Login = () => {
+  const [formData, setFormData] = useState({
+    id: '',
+    password: ''
+  });
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const setUserData = useUserStore((state) => state.setUserData);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      // Store user data and bills in Zustand store
+      setUserData(data.user, data.values);
+
+      // Redirect to dashboard
+      navigate('/dashboard');
+    } catch (err) {
+      console.error('Login error:', err);
+      setError(err.message || 'Failed to login. Please try again.');
     }
-
+  };
 
   return (
-    <div className='login-body'>
-        <div className="login-container">
-            <div className="login-box">
-            <h2>Account Login</h2>
-            <form>
-                <div className="input-group">
-                    <label htmlFor="user">Consumer Number:</label>
-                    <input type="text" id="user" name="user" value={consumer_num} onChange={(e)=> setConsumer_num(e.target.value)}  required />
-                </div>
-                <div className="input-group">
-                    <label htmlFor="password">Password:</label>
-                    <input type="password" id="password" name="password" value={password} onChange={(e)=> setpassword(e.target.value)} required />
-                </div>
-                <input type="submit" value="Submit" className="btn-primary" onClick={handleSubmit}/>
-            </form>
-            </div>
-        </div>
+    <div className="login-container">
+      <div className="login-box">
+        <h2>Consumer Login</h2>
+        {error && <div className="error-message">{error}</div>}
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="id">Consumer Number</label>
+            <input
+              type="text"
+              id="id"
+              name="id"
+              value={formData.id}
+              onChange={handleChange}
+              required
+              placeholder="Enter your consumer number"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              placeholder="Enter your password"
+            />
+          </div>
+          <button type="submit" className="login-button">
+            Login
+          </button>
+        </form>
+      </div>
     </div>
-  )
-}
+  );
+};
+
+export default Login;
