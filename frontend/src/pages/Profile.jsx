@@ -3,71 +3,124 @@ import Navbar from '../components/Navbar.jsx';
 import { Box, Button, Card, CardContent, CardHeader, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../store/user.js';
+import ChangePasswordDialog from '../components/ChangePasswordDialog.jsx';
 import '../assets/profile.css';
 
 export default function Profile() {
-  const rows = useUserStore((state) => state.values);
-  const userId = rows[0].uid;
-  const [email, setEmail] = useState('random@example.com');
-  const [phone, setPhone] = useState('9999999999');
+  const user = useUserStore((state) => state.user);
+  const clearStore = useUserStore((state) => state.clearStore);
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('*****');
   const [fname, setFname] = useState('');
   const [lname, setLname] = useState('');
   const [editField, setEditField] = useState(null);
+  const [error, setError] = useState(null);
+  const [passwordDialogOpen, setPasswordDialogOpen] = useState(false);
 
   useEffect(() => {
-    fetch(`/profile/${userId}`)
-    .then(response => response.json())
-    .then(data => {
-      const user = JSON.parse(data.values)[0];
-      //console.log(user);
-      setFname(user.first_name);
-      setLname(user.last_name);
-      setEmail(user.email);
-      setPhone(user.phone);
-      setPassword(user.password);
-    }) 
-    .catch(err => console.error(err))
-  }, []);
+    const fetchProfile = async () => {
+      try {
+        if (!user || !user.uid) {
+          throw new Error('No user data available');
+        }
 
-  const navigate = useNavigate();
-  
+        const response = await fetch(`http://localhost:5000/api/consumer/profile/${user.uid}`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch profile data');
+        }
+
+        const data = await response.json();
+        
+        // Update state with user data
+        setFname(data.first_name);
+        setLname(data.last_name);
+        setEmail(data.email);
+        setPhone(data.phone);
+        setPassword('*****'); // Masked password
+      } catch (err) {
+        console.error('Error fetching profile:', err);
+        setError(err.message);
+      }
+    };
+
+    fetchProfile();
+  }, [user]);
 
   const handleUpdate = async (field, value) => {
-    if (field === 'email') setEmail(value);
-    else if (field === 'phone') setPhone(value);
-    else if (field === 'password') setPassword('*****'); // Masked password
-    setEditField(null);
-    const data = {
-      id: userId,
-      data_field: field,
-      data_value: value
+    try {
+      if (!user || !user.uid) {
+        throw new Error('No user data available');
+      }
+
+      const data = {
+        id: user.uid,
+        data_field: field,
+        data_value: value
+      };
+
+      const response = await fetch('http://localhost:5000/updateDB', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update profile');
+      }
+
+      // Update local state
+      if (field === 'email') setEmail(value);
+      else if (field === 'phone') setPhone(value);
+      else if (field === 'password') setPassword('*****');
+
+      setEditField(null);
+      alert('Profile updated successfully!');
+    } catch (err) {
+      console.error('Error updating profile:', err);
+      alert(err.message || 'Failed to update profile');
     }
-    console.log(data);
-    const response = await fetch('/updateDB', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-  if (!response.ok) {
-      const errorData = await response.json(); // Parse the error message
-      // throw new Error(errorData.message || 'Failed to login');
-      alert(errorData.message || 'Invalid login details. Please try again.'); 
-      return;
-  }
-  const result = await response.json()
-  console.log(result);
-};
+  };
+
+  const handlePasswordUpdate = async (userId, currentPassword, newPassword) => {
+    try {
+      const response = await fetch('http://localhost:5000/api/consumer/change-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId,
+          currentPassword,
+          newPassword
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update password');
+      }
+
+      setPassword('******'); // Update masked password in UI
+      clearStore(); // Clear the user store
+    } catch (err) {
+      throw new Error(err.message || 'Failed to update password');
+    }
+  };
+
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <Box sx={{ display: 'flex' }}>
       <Navbar />
       <Box component="main" sx={{ flexGrow: 1, p: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Typography variant="h4" sx={{ mb: 4, fontWeight: 'bold' }}>Hello, {fname} {lname} </Typography>
+        <Typography variant="h4" sx={{ mb: 4, fontWeight: 'bold' }}>Hello, {fname} {lname}</Typography>
         <Card sx={{ maxWidth: 800, width: '100%', p: 2 }}>
           <CardHeader title="Your Profile" sx={{ backgroundColor: 'primary.main', color: 'white', textAlign: 'center' }} />
           <CardContent>
-            <Typography variant="body1"><strong>Consumer ID : </strong>{userId}</Typography><br/>
+            <Typography variant="body1"><strong>Consumer ID : </strong>{user?.uid}</Typography><br/>
             <Typography variant="body1"><strong>First Name : </strong> {fname}</Typography><br/>
             <Typography variant="body1"><strong>Last Name : </strong>  {lname}</Typography><br/>
             <Typography variant="body1"><strong>Email ID : </strong> {email}</Typography>
@@ -90,17 +143,24 @@ export default function Profile() {
             <Button onClick={() => setEditField('phone')} variant="outlined" color="success">Edit Phone</Button><br/>
             <br/>
             <Typography variant="body1"><strong>Password:</strong> {password}</Typography>
-            {editField === 'password' && (
-              <Box>
-                <TextField fullWidth type="password" label="New Password" onChange={(e) => setPassword(e.target.value)} />
-                <Button variant="contained" color="primary" onClick={() => handleUpdate('password', password)}>Update</Button>
-              </Box>
-            )}
-            <Button onClick={() => setEditField('password')} variant="outlined" color="success">Change Password</Button><br/>
+            <Button 
+              onClick={() => setPasswordDialogOpen(true)} 
+              variant="outlined" 
+              color="success"
+              sx={{ mt: 1 }}
+            >
+              Change Password
+            </Button>
           </CardContent>
         </Card>
-        {/* <Button variant="contained" color="error" sx={{ mt: 3 }} onClick={() => navigate('/logout')}>Logout</Button> */}
       </Box>
+
+      <ChangePasswordDialog
+        open={passwordDialogOpen}
+        onClose={() => setPasswordDialogOpen(false)}
+        onUpdate={handlePasswordUpdate}
+        userId={user?.uid}
+      />
     </Box>
   );
 }

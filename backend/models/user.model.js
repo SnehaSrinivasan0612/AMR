@@ -24,7 +24,16 @@ const userSchema = new mongoose.Schema(
         },
         email: {
             type: String,
-            required: true
+            required: true,
+            unique: true
+        },
+        last_login: {
+            type: Date,
+            default: Date.now
+        },
+        isActive: {
+            type: Boolean,
+            default: true
         }
     },
     {

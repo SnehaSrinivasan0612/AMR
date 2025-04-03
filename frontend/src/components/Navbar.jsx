@@ -18,6 +18,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { useNavigate } from 'react-router-dom';
+import { useUserStore } from '../store/user.js';
 // import MailIcon from '@mui/icons-material/Mail';
 
 const drawerWidth = 240;
@@ -104,6 +105,8 @@ export default function Navbar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const navigate = useNavigate();
+  const user = useUserStore((state) => state.user);
+  const clearStore = useUserStore((state) => state.clearStore);
 
 //   const handleDrawerOpen = () => {
 //     setOpen(true);
@@ -112,6 +115,32 @@ export default function Navbar() {
 //   const handleDrawerClose = () => {
 //     setOpen(true);
 //   };
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId: user?.uid
+        })
+      });
+      
+      const data = await response.json();
+      if (data.success) {
+        // Clear user store
+        clearStore();
+        // Redirect to home page
+        navigate(data.redirectUrl);
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Still redirect to home page even if there's an error
+      navigate('/');
+    }
+  };
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -380,7 +409,7 @@ export default function Navbar() {
               </ListItemButton>
         </ListItem>  
         <List style={{ marginTop: `auto` }} >
-            <ListItem key='Logout' disablePadding sx={{ display: 'block' }} onClick={() => {navigate('/')}}>
+            <ListItem key='Logout' disablePadding sx={{ display: 'block' }} onClick={handleLogout}>
                 <ListItemButton
                     sx={[
                     {

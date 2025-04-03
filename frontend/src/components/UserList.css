@@ -1,0 +1,103 @@
+.user-list {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.user-list h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 1.2em;
+}
+
+.user-table-container {
+  overflow-x: auto;
+  margin-top: 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.user-table th,
+.user-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.user-table th {
+  background-color: #f5f6fa;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.user-table tr:hover {
+  background-color: #f5f6fa;
+}
+
+.status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.status.active {
+  background-color: #e8f5e9;
+  color: #2ecc71;
+}
+
+.status.inactive {
+  background-color: #fde8e8;
+  color: #e74c3c;
+}
+
+.user-type {
+  text-transform: capitalize;
+}
+
+.user-type.residential {
+  color: #3498db;
+}
+
+.user-type.commercial {
+  color: #2ecc71;
+}
+
+.user-type.industrial {
+  color: #e74c3c;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.2em;
+  color: #7f8c8d;
+}
+
+.error {
+  text-align: center;
+  padding: 20px;
+  color: #e74c3c;
+  background-color: #fde8e8;
+  border-radius: 4px;
+  margin: 20px;
+}
+
+@media (max-width: 768px) {
+  .user-table-container {
+    margin: 0 -20px;
+    padding: 0 20px;
+  }
+  
+  .user-table th,
+  .user-table td {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+} 
