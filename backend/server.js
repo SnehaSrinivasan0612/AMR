@@ -1,5 +1,7 @@
-import express from 'express';
 import dotenv from 'dotenv';
+dotenv.config();
+
+import express from 'express';
 import { connectDB } from "./config/db.js"
 import cors from 'cors'
 import { google } from 'googleapis';
@@ -11,7 +13,6 @@ import adminRoutes from './routes/admin.js';
 import authRoutes from './routes/auth.js';
 import { MongoClient } from 'mongodb';
 
-dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -24,7 +25,11 @@ app.use(express.urlencoded({ extended: true }));
 
 // Updated CORS configuration
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://script.google.com'],  // Add Google Apps Script domain
+    origin: [
+        'http://localhost:5173', 
+        'https://script.google.com',
+        'https://amr-production-8fab.up.railway.app'  // Your Railway frontend URL
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
@@ -395,7 +400,7 @@ app.post('/api/login', async (req, res) => {
     const { id, password } = req.body;
     if (!id || !password) {
       return res.status(400).json({ message: 'Username and password are required' });
-    }
+  }
 
     const users = await User.find({ consumer_num: id });
     if (!users || users.length === 0) {
@@ -545,6 +550,45 @@ app.post('/api/logout', async (req, res) => {
       message: 'Error during logout',
       error: error.message 
     });
+  }
+});
+
+// Get unpaid bills
+app.get('/api/admin/unpaid-bills', authenticateAdmin, async (req, res) => {
+  try {
+    console.log('Fetching unpaid bills...');
+    const unpaidBills = await Bill.find({ 
+      status: 'Unpaid'  // Using the exact enum value from the schema
+    }).sort({ date: -1 });
+    
+    console.log(`Found ${unpaidBills.length} unpaid bills`);
+    console.log('Sample bill:', unpaidBills[0]); // Log a sample bill to check structure
+    
+    res.json(unpaidBills);
+  } catch (error) {
+    console.error('Error fetching unpaid bills:', error);
+    res.status(500).json({ message: 'Error fetching unpaid bills' });
+  }
+});
+
+// Mark bill as paid
+app.put('/api/admin/mark-bill-paid/:billId', authenticateAdmin, async (req, res) => {
+  try {
+    const bill = await Bill.findById(req.params.billId);
+    if (!bill) {
+      return res.status(404).json({ message: 'Bill not found' });
+    }
+
+    console.log('Current bill status:', bill.status);
+    bill.status = 'Paid';  // Using the exact enum value from the schema
+    bill.paidDate = new Date();
+    await bill.save();
+    console.log('Updated bill status:', bill.status);
+
+    res.json({ message: 'Bill marked as paid successfully' });
+  } catch (error) {
+    console.error('Error marking bill as paid:', error);
+    res.status(500).json({ message: 'Error marking bill as paid' });
   }
 });
 
