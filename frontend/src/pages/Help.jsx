@@ -23,7 +23,12 @@ export default function Help() {
                         This guide is intended for homeowners, businesses, or organizations seeking to
                         monitor and optimize their energy consumption.
                       </p>
-                      <a href="https://docs.google.com/document/d/1cVcOzmDdWkQxAupxv-8qX98xvPP--AmO/edit?usp=sharing&ouid=100020196574748852997&rtpof=true&sd=true" target='_blank' className="download-button">Download User Manual</a>
+                      <button 
+                        className="download-button"
+                        onClick={() => window.open('https://docs.google.com/document/d/1cVcOzmDdWkQxAupxv-8qX98xvPP--AmO/edit?usp=sharing&ouid=100020196574748852997&rtpof=true&sd=true', '_blank')}
+                      >
+                        Download User Manual
+                      </button>
                     </div>
 
                     <div className="important-links">

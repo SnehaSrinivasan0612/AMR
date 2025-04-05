@@ -17,13 +17,27 @@ defaults.plugins.title.font.size = 20;
 defaults.plugins.title.color = "black";
 
 export const Mycharts = () => {
-  const values = useUserStore((state) => state.values); // Retrieve values from the Zustand store
-  console.log(values);
+  const values = useUserStore((state) => state.values);
+  console.log('Raw values from store:', values);
+  
   const monthlyData = getMonthlyData(values);
-  console.log('my charts : ',monthlyData)
+  console.log('Processed monthly data:', monthlyData);
+  
   const labelsArr = monthlyData.map((data) => data.label);
   const amountArr = monthlyData.map((data) => data.amount);
-  console.log(labelsArr, amountArr);
+  console.log('Labels array:', labelsArr);
+  console.log('Amounts array:', amountArr);
+
+  if (!values || values.length === 0) {
+    return (
+      <div className="Mycharts">
+        <div className="dataCard revenueCard">
+          <p>No bill data available</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="Mycharts">
       <div className="dataCard revenueCard">
@@ -48,8 +62,38 @@ export const Mycharts = () => {
             plugins: {
               title: {
                 text: "Energy Bill",
+                font: {
+                  size: 16
+                }
               },
+              legend: {
+                position: 'top',
+                labels: {
+                  font: {
+                    size: 12
+                  }
+                }
+              }
             },
+            scales: {
+              x: {
+                ticks: {
+                  maxRotation: 45,
+                  minRotation: 45,
+                  font: {
+                    size: 11
+                  }
+                }
+              },
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  font: {
+                    size: 11
+                  }
+                }
+              }
+            }
           }}
         />
       </div>

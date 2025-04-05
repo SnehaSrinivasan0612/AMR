@@ -16,9 +16,14 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../store/user.js';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import HistoryIcon from '@mui/icons-material/History';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import HelpIcon from '@mui/icons-material/Help';
+import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/Logout';
 // import MailIcon from '@mui/icons-material/Mail';
 
 const drawerWidth = 240;
@@ -123,9 +128,7 @@ export default function Navbar() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          userId: user?.uid
-        })
+        body: JSON.stringify({ userId: user.uid })
       });
       
       const data = await response.json();
@@ -168,294 +171,304 @@ export default function Navbar() {
       </AppBar> */}
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          {/* <IconButton onClick={() => {setOpen(!open)}}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton> */}
+          <Box sx={{ 
+            width: '100%', 
+            textAlign: 'center', 
+            color: 'primary.main',
+            fontWeight: 'bold',
+            fontSize: '1.5rem'
+          }}>
+            AMR System
+          </Box>
         </DrawerHeader>
         {/* <Divider /> */}
-        <ListItem key='Dashboard' disablePadding sx={{ display: 'block' }} onClick={() => {navigate('/dashboard')}}>
-              <ListItemButton
+        <List>
+          <ListItem key='Dashboard' disablePadding sx={{ display: 'block' }} onClick={() => {navigate('/dashboard')}}>
+            <ListItemButton
+              sx={[
+                {
+                  minHeight: 48,
+                  px: 2.5,
+                },
+                open
+                  ? {
+                      justifyContent: 'initial',
+                    }
+                  : {
+                      justifyContent: 'center',
+                    },
+              ]}
+            >
+              <ListItemIcon
                 sx={[
                   {
-                    minHeight: 48,
-                    px: 2.5,
+                    minWidth: 0,
+                    justifyContent: 'center',
                   },
                   open
                     ? {
-                        justifyContent: 'initial',
+                        mr: 3,
                       }
                     : {
-                        justifyContent: 'center',
+                        mr: 'auto',
                       },
                 ]}
               >
-                <ListItemIcon
-                  sx={[
-                    {
-                      minWidth: 0,
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary='Dashboard'
+                sx={[
+                  open
+                    ? {
+                        opacity: 1,
+                      }
+                    : {
+                        opacity: 0,
+                      },
+                ]}
+              />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key='History' disablePadding sx={{ display: 'block' }} onClick={() => {navigate('/history')}}>
+            <ListItemButton
+              sx={[
+                {
+                  minHeight: 48,
+                  px: 2.5,
+                },
+                open
+                  ? {
+                      justifyContent: 'initial',
+                    }
+                  : {
                       justifyContent: 'center',
                     },
-                    open
-                      ? {
-                          mr: 3,
-                        }
-                      : {
-                          mr: 'auto',
-                        },
-                  ]}
-                >
-                   <InboxIcon /> 
-                </ListItemIcon>
-                <ListItemText
-                  primary='Dashboard'
-                  sx={[
-                    open
-                      ? {
-                          opacity: 1,
-                        }
-                      : {
-                          opacity: 0,
-                        },
-                  ]}
-                />
-              </ListItemButton>
-        </ListItem>
-        <ListItem key='History' disablePadding sx={{ display: 'block' }} onClick={() => {navigate('/history')}}>
-              <ListItemButton
+              ]}
+            >
+              <ListItemIcon
                 sx={[
                   {
-                    minHeight: 48,
-                    px: 2.5,
+                    minWidth: 0,
+                    justifyContent: 'center',
                   },
                   open
                     ? {
-                        justifyContent: 'initial',
+                        mr: 3,
                       }
                     : {
-                        justifyContent: 'center',
+                        mr: 'auto',
                       },
                 ]}
               >
-                <ListItemIcon
-                  sx={[
-                    {
-                      minWidth: 0,
+                <HistoryIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary='History'
+                sx={[
+                  open
+                    ? {
+                        opacity: 1,
+                      }
+                    : {
+                        opacity: 0,
+                      },
+                ]}
+              />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key='Bill' disablePadding sx={{ display: 'block' }} onClick={() => {navigate('/bill')}}>
+            <ListItemButton
+              sx={[
+                {
+                  minHeight: 48,
+                  px: 2.5,
+                },
+                open
+                  ? {
+                      justifyContent: 'initial',
+                    }
+                  : {
                       justifyContent: 'center',
                     },
-                    open
-                      ? {
-                          mr: 3,
-                        }
-                      : {
-                          mr: 'auto',
-                        },
-                  ]}
-                >
-                 <InboxIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary='History'
-                  sx={[
-                    open
-                      ? {
-                          opacity: 1,
-                        }
-                      : {
-                          opacity: 0,
-                        },
-                  ]}
-                />
-              </ListItemButton>
-        </ListItem>
-        <ListItem key='Bill' disablePadding sx={{ display: 'block' }} onClick={() => {navigate('/bill')}}>
-              <ListItemButton
+              ]}
+            >
+              <ListItemIcon
                 sx={[
                   {
-                    minHeight: 48,
-                    px: 2.5,
+                    minWidth: 0,
+                    justifyContent: 'center',
                   },
                   open
                     ? {
-                        justifyContent: 'initial',
+                        mr: 3,
                       }
                     : {
-                        justifyContent: 'center',
+                        mr: 'auto',
                       },
                 ]}
               >
-                <ListItemIcon
-                  sx={[
-                    {
-                      minWidth: 0,
+                <ReceiptIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary='Bill'
+                sx={[
+                  open
+                    ? {
+                        opacity: 1,
+                      }
+                    : {
+                        opacity: 0,
+                      },
+                ]}
+              />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key='Help' disablePadding sx={{ display: 'block' }} onClick={() => {navigate('/help')}}>
+            <ListItemButton
+              sx={[
+                {
+                  minHeight: 48,
+                  px: 2.5,
+                },
+                open
+                  ? {
+                      justifyContent: 'initial',
+                    }
+                  : {
                       justifyContent: 'center',
                     },
-                    open
-                      ? {
-                          mr: 3,
-                        }
-                      : {
-                          mr: 'auto',
-                        },
-                  ]}
-                >
-                <InboxIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary='Bill'
-                  sx={[
-                    open
-                      ? {
-                          opacity: 1,
-                        }
-                      : {
-                          opacity: 0,
-                        },
-                  ]}
-                />
-              </ListItemButton>
-        </ListItem>
-        <ListItem key='Help' disablePadding sx={{ display: 'block' }} onClick={() => {navigate('/help')}}>
-              <ListItemButton
+              ]}
+            >
+              <ListItemIcon
                 sx={[
                   {
-                    minHeight: 48,
-                    px: 2.5,
+                    minWidth: 0,
+                    justifyContent: 'center',
                   },
                   open
                     ? {
-                        justifyContent: 'initial',
+                        mr: 3,
                       }
                     : {
-                        justifyContent: 'center',
+                        mr: 'auto',
                       },
                 ]}
               >
-                <ListItemIcon
-                  sx={[
-                    {
-                      minWidth: 0,
+                <HelpIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary='Help'
+                sx={[
+                  open
+                    ? {
+                        opacity: 1,
+                      }
+                    : {
+                        opacity: 0,
+                      },
+                ]}
+              />
+            </ListItemButton>
+          </ListItem>    
+          <ListItem key='Profile' disablePadding sx={{ display: 'block' }} onClick={() => {navigate('/profile')}}>
+            <ListItemButton
+              sx={[
+                {
+                  minHeight: 48,
+                  px: 2.5,
+                },
+                open
+                  ? {
+                      justifyContent: 'initial',
+                    }
+                  : {
                       justifyContent: 'center',
                     },
-                    open
-                      ? {
-                          mr: 3,
-                        }
-                      : {
-                          mr: 'auto',
-                        },
-                  ]}
-                >
-                <InboxIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary='Help'
-                  sx={[
-                    open
-                      ? {
-                          opacity: 1,
-                        }
-                      : {
-                          opacity: 0,
-                        },
-                  ]}
-                />
-              </ListItemButton>
-        </ListItem>    
-        <ListItem key='Profile' disablePadding sx={{ display: 'block' }} onClick={() => {navigate('/profile')}}>
-              <ListItemButton
+              ]}
+            >
+              <ListItemIcon
                 sx={[
                   {
-                    minHeight: 48,
-                    px: 2.5,
+                    minWidth: 0,
+                    justifyContent: 'center',
                   },
                   open
                     ? {
-                        justifyContent: 'initial',
+                        mr: 3,
                       }
                     : {
-                        justifyContent: 'center',
+                        mr: 'auto',
                       },
                 ]}
               >
-                <ListItemIcon
-                  sx={[
-                    {
-                      minWidth: 0,
+                <PersonIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary='Profile'
+                sx={[
+                  open
+                    ? {
+                        opacity: 1,
+                      }
+                    : {
+                        opacity: 0,
+                      },
+                ]}
+              />
+            </ListItemButton>
+          </ListItem>  
+        </List>
+        <List style={{ marginTop: 'auto' }}>
+          <ListItem key='Logout' disablePadding sx={{ display: 'block' }} onClick={handleLogout}>
+            <ListItemButton
+              sx={[
+                {
+                  minHeight: 48,
+                  px: 2.5,
+                  color: '#d32f2f',
+                },
+                open
+                  ? {
+                      justifyContent: 'initial',
+                    }
+                  : {
                       justifyContent: 'center',
                     },
-                    open
-                      ? {
-                          mr: 3,
-                        }
-                      : {
-                          mr: 'auto',
-                        },
-                  ]}
-                >
-                <InboxIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary='Profile'
-                  sx={[
-                    open
-                      ? {
-                          opacity: 1,
-                        }
-                      : {
-                          opacity: 0,
-                        },
-                  ]}
-                />
-              </ListItemButton>
-        </ListItem>  
-        <List style={{ marginTop: `auto` }} >
-            <ListItem key='Logout' disablePadding sx={{ display: 'block' }} onClick={handleLogout}>
-                <ListItemButton
-                    sx={[
-                    {
-                        minHeight: 48,
-                        px: 2.5,
-                    },
-                    open
-                        ? {
-                            justifyContent: 'initial',
-                        }
-                        : {
-                            justifyContent: 'center',
-                        },
-                    ]}
-                >
-                    <ListItemIcon
-                    sx={[
-                        {
-                        minWidth: 0,
-                        justifyContent: 'center',
-                        },
-                        open
-                        ? {
-                            mr: 3,
-                            }
-                        : {
-                            mr: 'auto',
-                            },
-                    ]}
-                    >
-                    <InboxIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                    primary='Logout'
-                    sx={[
-                        open
-                        ? {
-                            opacity: 1,
-                            }
-                        : {
-                            opacity: 0,
-                            },
-                    ]}
-                    />
-                </ListItemButton>
-            </ListItem>
+              ]}
+            >
+              <ListItemIcon
+                sx={[
+                  {
+                    minWidth: 0,
+                    justifyContent: 'center',
+                    color: '#d32f2f',
+                  },
+                  open
+                    ? {
+                        mr: 3,
+                      }
+                    : {
+                        mr: 'auto',
+                      },
+                ]}
+              >
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary='Logout'
+                sx={[
+                  open
+                    ? {
+                        opacity: 1,
+                      }
+                    : {
+                        opacity: 0,
+                      },
+                ]}
+              />
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
       {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

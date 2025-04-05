@@ -42,6 +42,15 @@ export default function History() {
     fetchPaidBills();
   }, [user]);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -67,7 +76,7 @@ export default function History() {
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell align="right">{row.billno}</TableCell>
-                    <TableCell align="right">{row.date}</TableCell>
+                    <TableCell align="right">{formatDate(row.date)}</TableCell>
                     <TableCell align="right">{row.amount}</TableCell>
                   </TableRow>
                 ))}

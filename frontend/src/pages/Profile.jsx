@@ -126,26 +126,26 @@ export default function Profile() {
             <Typography variant="body1"><strong>Email ID : </strong> {email}</Typography>
             {editField === 'email' && (
               <Box>
-                <TextField fullWidth label="New Email" defaultValue={email} onChange={(e) => setEmail(e.target.value)} />
-                <Button variant="contained" color="primary" onClick={() => handleUpdate('email', email)}>Update</Button>
+                <TextField sx={{ mt: 1 }} fullWidth label="New Email" defaultValue={email} onChange={(e) => setEmail(e.target.value)} />
+                <Button variant="contained" color="success" onClick={() => handleUpdate('email', email)}>Update</Button>
               </Box>
             )}
             
-            <Button onClick={() => setEditField('email')} variant="outlined" color="success">Edit Email</Button>
+            <Button onClick={() => setEditField('email')} variant="contained" color="success" sx={{ mt: 1 }}>Edit Email</Button>
             <br/>
             <br/><Typography variant="body1"><strong>Phone:</strong> {phone}</Typography>
             {editField === 'phone' && (
               <Box>
-                <TextField fullWidth label="New Phone" defaultValue={phone} onChange={(e) => setPhone(e.target.value)} />
-                <Button variant="contained" color="primary" onClick={() => handleUpdate('phone', phone)}>Update</Button>
+                <TextField sx={{ mt: 1 }} fullWidth label="New Phone" defaultValue={phone} onChange={(e) => setPhone(e.target.value)} />
+                <Button variant="contained" color="success" onClick={() => handleUpdate('phone', phone)}>Update</Button>
               </Box>
             )}
-            <Button onClick={() => setEditField('phone')} variant="outlined" color="success">Edit Phone</Button><br/>
+            <Button onClick={() => setEditField('phone')} variant="contained" color="success" sx={{ mt: 1 }}>Edit Phone</Button><br/>
             <br/>
             <Typography variant="body1"><strong>Password:</strong> {password}</Typography>
             <Button 
               onClick={() => setPasswordDialogOpen(true)} 
-              variant="outlined" 
+              variant="contained" 
               color="success"
               sx={{ mt: 1 }}
             >

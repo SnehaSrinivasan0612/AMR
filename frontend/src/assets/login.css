@@ -92,4 +92,13 @@
   .links a:hover {
     text-decoration: underline;
   }
+  @media (max-width: 480px) {
+    .login-box {
+      padding: 0.5rem;
+    }
+  
+    .login-box h2 {
+      font-size: 1.8rem;
+    }
+  } 
   

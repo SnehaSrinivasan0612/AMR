@@ -3,106 +3,195 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  padding: 2rem;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+              url('https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  padding: 1rem;
+  position: relative;
 }
 
 .home-content {
-  max-width: 800px;
-  background: white;
-  padding: 3rem;
-  border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 h1 {
-  color: #2c3e50;
+  color: #1a237e;
   text-align: center;
   margin-bottom: 2rem;
-  font-size: 2.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, #1976d2, #2196f3);
+  border-radius: 2px;
 }
 
 h2 {
-  color: #34495e;
-  margin-bottom: 1rem;
-  font-size: 1.8rem;
+  color: #1976d2;
+  margin-bottom: 1.2rem;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .info-section, .features-section {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.info-section:hover, .features-section:hover {
+  transform: translateY(-5px);
 }
 
 .info-section p {
-  color: #666;
-  line-height: 1.6;
-  font-size: 1.1rem;
+  color: #424242;
+  line-height: 1.8;
+  font-size: 1rem;
+  margin-bottom: 1rem;
 }
 
 .features-section ul {
   list-style-type: none;
   padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
 }
 
 .features-section li {
-  color: #666;
-  margin-bottom: 0.8rem;
-  padding-left: 1.5rem;
-  position: relative;
+  color: #424242;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.features-section li:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .features-section li:before {
-  content: "•";
-  color: #3498db;
-  position: absolute;
-  left: 0;
+  content: "⚡";
+  margin-right: 1rem;
+  font-size: 1rem;
+  color: #1976d2;
 }
 
 .login-buttons {
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
   justify-content: center;
-  margin-top: 2.5rem;
+  margin-top: 3rem;
 }
 
 .consumer-login-btn, .admin-login-btn {
-  padding: 1rem 2rem;
+  padding: 1.2rem 2.5rem;
   border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
+  border-radius: 12px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
 }
 
 .consumer-login-btn {
-  background-color: #3498db;
+  background: linear-gradient(135deg, #1976d2, #2196f3);
   color: white;
 }
 
 .admin-login-btn {
-  background-color: #2ecc71;
+  background: linear-gradient(135deg, #2e7d32, #4caf50);
   color: white;
 }
 
 .consumer-login-btn:hover, .admin-login-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.consumer-login-btn:active, .admin-login-btn:active {
+  transform: translateY(-1px);
 }
 
 @media (max-width: 768px) {
   .home-content {
     padding: 2rem;
+    margin: 1rem;
   }
 
   .login-buttons {
     flex-direction: column;
+    gap: 1rem;
   }
 
   h1 {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
+
+  .features-section ul {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Add a subtle animation for the buttons */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(25, 118, 210, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(25, 118, 210, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(25, 118, 210, 0);
+  }
+}
+
+.consumer-login-btn {
+  animation: pulse 2s infinite;
 } 

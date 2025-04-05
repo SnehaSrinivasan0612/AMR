@@ -3,6 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import UserList from '../components/UserList';
 import AddUser from '../components/AddUser';
 import './AdminDashboard.css';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import PeopleIcon from '@mui/icons-material/People';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import LogoutIcon from '@mui/icons-material/Logout';
+import ViewListIcon from '@mui/icons-material/ViewList';
+import UnpaidBills from '../components/UnpaidBills';
 
 const AdminDashboard = () => {
   const [userStats, setUserStats] = useState(null);
@@ -54,14 +60,11 @@ const AdminDashboard = () => {
       
       const data = await response.json();
       if (data.success) {
-        // Clear any stored data
         localStorage.removeItem('adminToken');
-        // Redirect to home page
         navigate(data.redirectUrl);
       }
     } catch (error) {
       console.error('Logout error:', error);
-      // Still redirect to home page even if there's an error
       navigate('/');
     }
   };
@@ -78,24 +81,35 @@ const AdminDashboard = () => {
             className={`nav-button ${activeTab === 'dashboard' ? 'active' : ''}`}
             onClick={() => setActiveTab('dashboard')}
           >
+            <DashboardIcon className="nav-icon" />
             Dashboard
           </button>
           <button 
             className={`nav-button ${activeTab === 'users' ? 'active' : ''}`}
             onClick={() => setActiveTab('users')}
           >
+            <PeopleIcon className="nav-icon" />
             User List
           </button>
           <button 
             className={`nav-button ${activeTab === 'add-user' ? 'active' : ''}`}
             onClick={() => setActiveTab('add-user')}
           >
+            <PersonAddIcon className="nav-icon" />
             Add User
+          </button>
+          <button 
+            className={`nav-button ${activeTab === 'view-bills' ? 'active' : ''}`}
+            onClick={() => setActiveTab('view-bills')}
+          >
+            <ViewListIcon className="nav-icon" />
+            View Bills
           </button>
           <button 
             className="nav-button logout-button"
             onClick={handleLogout}
           >
+            <LogoutIcon className="nav-icon" />
             Logout
           </button>
         </nav>
@@ -106,7 +120,6 @@ const AdminDashboard = () => {
           <>
             <h1>Admin Dashboard</h1>
             <div className="dashboard-grid">
-              {/* Overall Statistics */}
               <div className="stats-card">
                 <h2>Overall Statistics</h2>
                 <div className="stats-grid">
@@ -134,6 +147,7 @@ const AdminDashboard = () => {
 
         {activeTab === 'users' && <UserList />}
         {activeTab === 'add-user' && <AddUser />}
+        {activeTab === 'view-bills' && <UnpaidBills />}
       </div>
     </div>
   );
